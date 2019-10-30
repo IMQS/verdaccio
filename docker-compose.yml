@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  verdaccio:
+    image: imqs/verdaccio:latest
+    init: true
+    ports:
+      - 4873:4873
+    volumes:
+      - ./storage:/verdaccio/storage
+      - ./auth:/verdaccio/auth
