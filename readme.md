@@ -12,4 +12,4 @@ sudo htpasswd /home/developer1/verdaccio/auth/htpasswd ben
 ```
 
 ### Updating the docker image
-`docker build -t imqs/verdaccio && docker push imqs/verdaccio`
+`docker build -t imqs/verdaccio . && docker push imqs/verdaccio`
