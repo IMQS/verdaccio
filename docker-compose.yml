@@ -9,3 +9,5 @@ services:
     volumes:
       - ./storage:/verdaccio/storage
       - ./auth:/verdaccio/auth
+    environment:
+      LDAP_ADMIN_PASS: "your-ldap-admin-password"

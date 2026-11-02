@@ -1,6 +1,6 @@
-FROM node:12.13.0
+FROM node:24
 
-RUN npm install -g verdaccio
+RUN npm install -g verdaccio verdaccio-ldap
 
 COPY config.yml /verdaccio/config/
 

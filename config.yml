@@ -14,11 +14,20 @@ web:
   # sort_packages: asc
 
 auth:
-  htpasswd:
-    file: /verdaccio/auth/htpasswd
-    # Maximum amount of users allowed to register, defaults to "+inf".
-    # You can set this to -1 to disable registration.
-    max_users: -1
+  ldap:
+    type: ldap
+    cache:
+      size: 100
+      expire: 300
+    client_options:
+      url: "ldap://imqs.local"
+      adminDn: "CN=verdaccio-svc,OU=Service Accounts,DC=imqs,DC=local"
+      searchBase: "OU=IMQS,dc=imqs,dc=local"
+      searchFilter: "(sAMAccountName={{username}})"
+      groupDnProperty: "cn"
+      groupSearchBase: "OU=Groups,DC=imqs,DC=local"
+      searchAttributes: ['*', 'memberOf']
+      reconnect: true
 
 # a list of other known repositories we can talk to
 uplinks:
@@ -28,25 +37,16 @@ uplinks:
 packages:
   '@*/*':
     # scoped packages
-    access: $all
-    publish: $authenticated
-    unpublish: $authenticated
+    access: $authenticated
+    publish: Developers
+    unpublish: Developers
     proxy: npmjs
 
   '**':
-    # allow all users (including non-authenticated users) to read and
-    # publish all packages
-    #
-    # you can specify usernames/groupnames (depending on your auth plugin)
-    # and three keywords: "$all", "$anonymous", "$authenticated"
-    access: $all
-
-    # allow all known users to publish/publish packages
-    # (anyone can register by default, remember?)
-    publish: $authenticated
-    unpublish: $authenticated
-
-    # if package is not available locally, proxy requests to 'npmjs' registry
+    # all other packages
+    access: $authenticated
+    publish: Developers
+    unpublish: Developers
     proxy: npmjs
 
 # You can specify HTTP/1.1 server keep alive timeout in seconds for incoming connections.
